@@ -395,7 +395,8 @@ base::Status ModelDesc::serializeStructureToJson(std::ostream &stream) const {
   base::Status status =
       this->serializeStructureToJson(json, doc.GetAllocator());
   if (status != base::kStatusCodeOk) {
-    NNDEPLOY_LOGE("serializeStructureToJson failed with status: %d\n", status);
+    NNDEPLOY_LOGE("serializeStructureToJson failed with status: %d\n",
+                  int(status));
     return status;
   }
 

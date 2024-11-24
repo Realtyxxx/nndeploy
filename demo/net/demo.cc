@@ -43,11 +43,12 @@ int main() {
     return ret;
   }
 
+  std::string model_path = "/Users/realtyxxx_mac/nn/model/yolov8/";
+
   auto onnx_interpret =
       std::shared_ptr<ir::Interpret>(ir::createInterpret(base::kModelTypeOnnx));
   std::vector<std::string> model_value;
-  // model_value.push_back("D:\\github\\nndeploy\\build\\yolov8n.onnx");
-  model_value.push_back("yolov8n.onnx");
+  model_value.push_back(model_path + "yolov8n.onnx");
 
   base::Status status = onnx_interpret->interpret(model_value);
   if (status != base::kStatusCodeOk) {
@@ -56,19 +57,19 @@ int main() {
   }
 
   // onnx_interpret->dump(std::cout);
-  onnx_interpret->saveModelToFile("yolov8n.json", "yolov8n.safetensors");
+  onnx_interpret->saveModelToFile(model_path + "yolov8n.json", model_path + "yolov8n.safetensors");
 
   auto default_interpret = std::shared_ptr<ir::Interpret>(
       ir::createInterpret(base::kModelTypeDefault));
   std::vector<std::string> new_model_value;
-  new_model_value.push_back("yolov8n.json");
-  new_model_value.push_back("yolov8n.safetensors");
+  new_model_value.push_back(model_path + "yolov8n.json");
+  new_model_value.push_back(model_path + "yolov8n.safetensors");
   status = default_interpret->interpret(new_model_value);
   if (status != base::kStatusCodeOk) {
     NNDEPLOY_LOGE("interpret failed\n");
     return -1;
   }
-  default_interpret->saveModelToFile("yolov8n_test.json", "yolov8n_test.safetensors");
+  default_interpret->saveModelToFile(model_path + "yolov8n_test.json", model_path + "yolov8n_test.safetensors");
 
   // ir::ModelDesc *md = onnx_interpret->getModelDesc();
   ir::ModelDesc *md = default_interpret->getModelDesc();
